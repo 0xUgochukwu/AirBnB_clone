@@ -8,17 +8,17 @@ from datetime import datetime
 class BaseModel:
     """A BaseModel class"""
     def __init__(self, *args, **kwargs):
-	if kwargs:
-		del kwargs['__class__']
+        if kwargs:
+            del kwargs['__class__']
 
-		for key, value in kwargs:
-			if key == 'created_at' or key == 'updated_at':
-				value = datetime.fromisoformat(value)
-		setattr(cls, key, value)
-	else:
-		self.id = str(uuid.uuid4())
-        	self.created_at = datetime.now()
-        	self.updated_at = self.created_at
+                for key, value in kwargs:
+                    if key == 'created_at' or key == 'updated_at':
+                        value = datetime.fromisoformat(value)
+                setattr(cls, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+                self.created_at = datetime.now()
+                self.updated_at = self.created_at
 
     def __str__(self):
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
