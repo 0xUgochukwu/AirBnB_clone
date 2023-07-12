@@ -27,6 +27,6 @@ class FileStorage:
                 json_object = json.load(json_file)
                 #ERROR
                 for key in json_object:
-                    self.__objects[key] = eval(json_object[key]['__class__'](**json_object[key]))
+                    self.__objects[key] = globals()[json_object[key]['__class__']](**json_object[key])
         except:
             pass
