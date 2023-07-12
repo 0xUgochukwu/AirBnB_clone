@@ -10,7 +10,8 @@ class BaseModel:
     """A BaseModel class"""
     def __init__(self, *args, **kwargs):
         if kwargs:
-            for key, value in kwargs:
+            del kwargs['__class__']
+            for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
                     value = datetime.fromisoformat(value)
             setattr(self, key, value)
