@@ -1,15 +1,15 @@
 #!/usr/bin/python3
+"""Review Module"""
 
-"""User Class"""
 from models.base_model import BaseModel
 
 
-class User(BaseModel):
-    """A User class"""
-    email = ""
-    password = ""
-    first_name = ""
-    last_name = ""
+class Review(BaseModel):
+    """ Review Class """
+
+    place_id = ""
+    user_id = ""
+    text = ""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

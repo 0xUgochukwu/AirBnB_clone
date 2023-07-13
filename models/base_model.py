@@ -5,6 +5,7 @@ import uuid
 from datetime import datetime
 import models
 
+
 class BaseModel:
     """A BaseModel class"""
     def __init__(self, *args, **kwargs):
