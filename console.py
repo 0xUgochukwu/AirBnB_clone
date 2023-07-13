@@ -5,9 +5,7 @@ import cmd
 import shlex
 from models.base_model import BaseModel
 from models import storage
-import json
-import ast
-
+from models.user import User
 
 class HBNBCommand(cmd.Cmd):
 
@@ -57,10 +55,11 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, args):
-        'Creates a new BaseModel Instance'
-        if self.__class_validity(args) is False:
+        'Creates a new Instance of a class'
+        args = self.__class_validity(args)
+        if args is False:
             return
-        obj = BaseModel()
+        obj = globals()[args[0]]()
         print(obj.id)
 
     def do_show(self, args):
@@ -105,10 +104,12 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return
         else:
-            attr = args[2]
-            attr_type = type(attr)
-            value = attr_type(args[3])
             obj = vars(objects[key])
+            attr = args[2]
+            value = args[3]
+            if attr in obj.keys():
+                attr_type = type(obj[attr])
+                value = attr_type(args[3])
             obj[attr] = value
             storage.save()
 
