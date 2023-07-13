@@ -28,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
 
     def __func(self, commmand, args):
 
-        args = self.__class_validity(args) 
+        args = self.__class_validity(args)
         if args is False:
             return
 
@@ -72,7 +72,9 @@ class HBNBCommand(cmd.Cmd):
         self.__func("destroy", args)
 
     def do_all(self, args):
-        'Prints all string repr of all instances based or not on the class name'
+        """
+        Prints all string repr of all instances based or not on the class name
+        """
         if self.__class_validity(args) is False:
             return
         objects = storage.all()
@@ -82,8 +84,8 @@ class HBNBCommand(cmd.Cmd):
         print(objects_arr)
 
     def do_update(self, args):
-        'Updates an instance based on the class name and id' 
-        args = self.__class_validity(args) 
+        'Updates an instance based on the class name and id'
+        args = self.__class_validity(args)
         storage.reload()
         objects = storage.all()
         key = args[0] + '.' + args[1]
@@ -109,7 +111,7 @@ class HBNBCommand(cmd.Cmd):
             obj = vars(objects[key])
             obj[attr] = value
             storage.save()
-                
+
     def emptyline(self):
         'Does nothing'
         pass
