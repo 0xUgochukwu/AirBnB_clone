@@ -9,9 +9,7 @@ import models
 class BaseModel:
     """A BaseModel class"""
     def __init__(self, *args, **kwargs):
-        print("__init__main")
         if kwargs:
-            print("__init__")
             del kwargs['__class__']
             for key, value in kwargs.items():
                 if key == 'created_at' or key == 'updated_at':
