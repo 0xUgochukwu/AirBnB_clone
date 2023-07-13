@@ -7,3 +7,6 @@ import cmd
 class HBNBCommand(cmd.Cmd):
     """A HBNBCommand class"""
     pass
+
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
