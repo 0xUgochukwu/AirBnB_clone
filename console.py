@@ -7,11 +7,6 @@ from models.base_model import BaseModel
 from models import storage
 
 
-classes = {
-        "BaseModel": BaseModel
-        }
-
-
 class HBNBCommand(cmd.Cmd):
     """A HBNBCommand class"""
     prompt = '(hbnb) '
@@ -28,8 +23,10 @@ class HBNBCommand(cmd.Cmd):
         'Creates a new BaseModel Instance'
         if not arg:
             print("** class name missing **")
+            return
         if arg not in globals() or arg != "BaseModel":
             print("** class doesn't exist **")
+            return
 
         obj = BaseModel()
         print(obj.id)
@@ -38,17 +35,19 @@ class HBNBCommand(cmd.Cmd):
         'Displays string representation of a class based on its id'
 
         args = shlex.split(arg)
-        print(args[0])
-        print(globals())
+        print(globals().keys())
 
-        if not len(args) == 0:
+        if len(args) == 0:
             print("** class name missing **")
+            return
 
-        if arg[0] not in classes.keys():
+        if arg[0] not in globals().keys():
             print("** class doesn't exist **")
+            return
 
         if len(args) < 2:
             print("** instance id missing **")
+            return
 
         storage.reload()
         objects = storage.all()
