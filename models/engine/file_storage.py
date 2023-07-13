@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ File Storage Module """
 import json
+from models.base_model import BaseModel
 
 class FileStorage:
     """ FileStorage Class """
@@ -22,11 +23,12 @@ class FileStorage:
             json.dump(dict_objects, json_file)
 
     def reload(self):
+        classes = {"BaseModel": BaseModel}
+
         try:
             with open(self.__file_path, "r") as json_file:
-                json_object = json.load(json_file)
-                #ERROR
-                for key in json_object:
-                    self.__objects[key] = globals()[json_object[key]['__class__']](**json_object[key])
+                data  = json.load(json_file)
+                for key, kwargs in data.items():
+                    self.__objects[key] = classes[kwargs['__class__']](**kwargs)
         except:
             pass
