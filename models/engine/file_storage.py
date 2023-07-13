@@ -24,11 +24,10 @@ class FileStorage:
             json.dump(dict_objects, json_file)
 
     def reload(self):
-        classes = {"BaseModel": BaseModel}
         try:
             with open(self.__file_path, "r") as json_file:
                 data = json.load(json_file)
-                for key, value in data.items():
-                    self.__objects[key] = classes[value['__class__']](**value)
+                for key, args in data.items():
+                    self.__objects[key] = globals()[args['__class__']](**args)
         except Exception as e:
             pass
