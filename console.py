@@ -149,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
             return cmd.Cmd.precmd(self, args)
 
     def emptyline(self):
-        'Does nothing'
+        'Just move on ffs'
         pass
 
 
