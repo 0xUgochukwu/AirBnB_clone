@@ -54,9 +54,7 @@ class HBNBCommand(cmd.Cmd):
             print(objects[key])
 
     def __parse(self, arg_str):
-        print (f"ARG_STR => {arg_str[:-1]}")
         parsed_arg = re.split("\(|, ", arg_str[:-1])
-        print (f"parsed: {parsed_arg}")
         return parsed_arg
 
     def do_quit(self, arg):
@@ -141,11 +139,11 @@ class HBNBCommand(cmd.Cmd):
     def precmd(self, args):
         if "." in args:
             args = args.split('.')
-            print(f"ARGUMENTs => {args}")
             classname = args[0]
             arguments = self.__parse(args[1])
             function = arguments[0]
             line = f"{function} {classname} {(' ').join(arguments[:1])}"
+            print(f"LINE => {line}")
             return cmd.Cmd.precmd(self, line)
         else:
             return cmd.Cmd.precmd(self, args)
