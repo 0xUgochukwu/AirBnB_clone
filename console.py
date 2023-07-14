@@ -142,7 +142,7 @@ class HBNBCommand(cmd.Cmd):
             classname = args[0]
             arguments = self.__parse(args[1])
             function = arguments[0]
-            line = f"{function} {classname} {(' ').join(arguments[:1])}"
+            line = f"{function} {classname} {(' ').join(arguments[1:])}"
             print(f"LINE => {line}")
             return cmd.Cmd.precmd(self, line)
         else:
