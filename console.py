@@ -109,8 +109,11 @@ class HBNBCommand(cmd.Cmd):
         storage.reload()
         objects = storage.all()
         objects_arr = []
-        for value in objects.values():
-            objects_arr.append(str(value))
+        args = self.__class_validity(args)
+        if args is None:
+            return
+        else:
+            objects_arr = self.__get_instances(objects, args[0])
         print(objects_arr)
 
     def do_update(self, args):
