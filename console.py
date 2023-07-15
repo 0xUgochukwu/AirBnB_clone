@@ -57,6 +57,14 @@ class HBNBCommand(cmd.Cmd):
         parsed_arg = re.split("\(|, ", arg_str[:-1])
         return parsed_arg
 
+    def __get_instances(self, objects, classname):
+        objects_arr = []
+        for key in objects.keys():
+            class_type = key.split('.')[0]
+            if class_type == classname:
+                objects_arr.append(str(objects[key]))
+        return objects_arr
+
     def do_quit(self, arg):
         'Quit command to exit the program'
         return True
@@ -81,6 +89,15 @@ class HBNBCommand(cmd.Cmd):
         'Deletes an instance based on the class name and id'
         self.__func("destroy", args)
 
+    def do_count(self, args):
+        'Retrieves the number of instances of a class'
+        args = self.__class_validity(args)
+        if args is None:
+            return
+        storage.reload()
+        objects = storage.all()
+        print(len(self.__get_instances(objects, args[0])))
+
     def do_all(self, args):
         """
         Prints all string repr of all instances based on the class name
@@ -99,10 +116,7 @@ class HBNBCommand(cmd.Cmd):
             if args is None:
                 return
             else:
-                for key in objects.keys():
-                    class_type = key.split('.')[0]
-                    if class_type == args[0]:
-                        objects_arr.append(str(objects[key]))
+                objects_arr = self.__get_instances(objects, args[0])
         print(objects_arr)
 
     def do_update(self, args):
