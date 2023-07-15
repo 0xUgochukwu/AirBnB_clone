@@ -162,7 +162,7 @@ class HBNBCommand(cmd.Cmd):
         return
 
     def emptyline(self):
-        'Just move on ffs'
+        'Does nothing'
         pass
 
 
