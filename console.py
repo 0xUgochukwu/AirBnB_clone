@@ -4,6 +4,7 @@
 import cmd
 import shlex
 import re
+import json
 from models.base_model import BaseModel
 from models import storage
 from models.user import User
@@ -21,7 +22,7 @@ class HBNBCommand(cmd.Cmd):
 
     def __class_validity(self, args):
 
-        args = shlex.split(args)
+        args = re.split(r" (?![^{}[\]()]*[}\]])", args)
         if len(args) == 0:
             print("** class name missing **")
             return None
@@ -29,6 +30,7 @@ class HBNBCommand(cmd.Cmd):
         if args[0] not in globals().keys():
             print("** class doesn't exist **")
             return None
+
         return args
 
     def __func(self, commmand, args):
@@ -54,7 +56,7 @@ class HBNBCommand(cmd.Cmd):
             print(objects[key])
 
     def __parse(self, arg_str):
-        parsed_arg = re.split("\(|, ", arg_str[:-1])
+        parsed_arg = re.split(r"\(|, (?![^{}[\]()]*[}\]])", arg_str[:-1])
         return parsed_arg
 
     def __get_instances(self, objects, classname):
@@ -122,20 +124,29 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, args):
         'Updates an instance based on the class name and id'
         args = self.__class_validity(args)
-        storage.reload()
-        objects = storage.all()
-        key = args[0] + '.' + args[1]
+        print("ARRGS =>", args)
 
         if args is None:
             return
         elif len(args) < 2:
             print("** instance id missing **")
             return
-        elif key not in objects.keys():
+
+        storage.reload()
+        objects = storage.all()
+        key = args[0] + '.' + args[1]
+
+        if key not in objects.keys():
             print("** no instance found **")
             return
         elif len(args) < 3:
             print("** attribute name missing **")
+            return
+        elif '}' in args[2]:
+            for key, value in eval(args[2]).items():
+                argument = f"{args[0]} {args[1]} {key} {value}"
+                self.do_update(argument)
+                storage.save()
             return
         elif len(args) < 4:
             print("** value missing **")
@@ -150,25 +161,12 @@ class HBNBCommand(cmd.Cmd):
             obj[attr] = value
             storage.save()
 
-        
-
     def precmd(self, args):
         if "." in args:
             args = args.split('.', 1)
             classname = args[0]
             arguments = self.__parse(args[1])
             function = arguments[0]
-
-            if '}' in arguments[-1]:
-                _dict = eval((', ').join(arguments[2:]))
-                _id = arguments[1]
-
-                for key, value in _dict.items():
-                    line = f"{function} {classname} {_id} {key} {value}"
-                    cmd.Cmd.precmd(self, line)
-
-                return cmd.Cmd.precmd(self, line)
-
             line = f"{function} {classname} {(' ').join(arguments[1:])}"
             return cmd.Cmd.precmd(self, line)
         else:
