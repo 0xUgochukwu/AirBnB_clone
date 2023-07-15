@@ -144,13 +144,17 @@ class HBNBCommand(cmd.Cmd):
             classname = args[0]
             arguments = self.__parse(args[1])
             function = arguments[0]
+
             if '}' in arguments[-1]:
                 _dict = eval((', ').join(arguments[2:]))
                 _id = arguments[1]
+
                 for key, value in _dict.items():
                     line = f"{function} {classname} {_id} {key} {value}"
                     cmd.Cmd.precmd(self, line)
+
                 return cmd.Cmd.precmd(self, line)
+
             line = f"{function} {classname} {(' ').join(arguments[1:])}"
             return cmd.Cmd.precmd(self, line)
         else:
