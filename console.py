@@ -109,18 +109,22 @@ class HBNBCommand(cmd.Cmd):
         storage.reload()
         objects = storage.all()
         objects_arr = []
-        args = self.__class_validity(args)
-        if args is None:
-            return
+
+        if args_count < 1:
+            for value in objects.values():
+                objects_arr.append(str(value))
         else:
-            objects_arr = self.__get_instances(objects, args[0])
+            args = self.__class_validity(args)
+            if args is None:
+                return
+            else:
+                objects_arr = self.__get_instances(objects, args[0])
+
         print(objects_arr)
 
     def do_update(self, args):
         'Updates an instance based on the class name and id'
         args = self.__class_validity(args)
-        print("ARRGS =>", args)
-
         if args is None:
             return
         elif len(args) < 2:
@@ -141,7 +145,6 @@ class HBNBCommand(cmd.Cmd):
             for key, value in eval(args[2]).items():
                 argument = f"{args[0]} {args[1]} {key} {value}"
                 self.do_update(argument)
-                storage.save()
             return
         elif len(args) < 4:
             print("** value missing **")
