@@ -24,7 +24,6 @@ class HBNBCommand(cmd.Cmd):
 
         args = re.split(r" (?![^{}[\]()]*[}\]])", args)
         if args[0] == '':
-
             print("** class name missing **")
             return None
 

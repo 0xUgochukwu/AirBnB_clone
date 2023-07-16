@@ -31,12 +31,12 @@ class TestHBNBCommand(unittest.TestCase):
     def test_create_and_show_instance(self):
         with patch('sys.stdout', new=StringIO()) as output:
             self.cmd.onecmd("create BaseModel")
-            output = output.getvalue().strip()
+            outval = output.getvalue().strip()
             self.assertTrue(output)
 
         with patch('sys.stdout', new=StringIO()) as output:
-            self.cmd.onecmd(f"show BaseModel {output}")
-            self.assertIn(output, output.getvalue())
+            self.cmd.onecmd(f"show BaseModel {outval}")
+            self.assertIn(outval, output.getvalue())
 
     def test_show_with_missing_class_name(self):
         with patch('sys.stdout', new=StringIO()) as output:
