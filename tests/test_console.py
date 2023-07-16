@@ -211,13 +211,17 @@ class TestConsoleClass(unittest.TestCase):
 
     def test_update_missing_value(self):
         """ Checks if the attribute value is missing """
+        cmd = HBNBCommand()
+
         with patch('sys.stdout', new=StringIO()) as my_id:
-            HBNBCommand().onecmd('create BaseModel')
-            base_id = my_id.getvalue()
+            cmd.onecmd('create BaseModel')
+            base_id = my_id.getvalue().strip()
             self.assertTrue(len(base_id) > 0)
+
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd('update BaseModel ' + base_id + "first_name")
-            self.assertTrue(val.getvalue() == "** value missing **\n")
+            cmd.onecmd('update BaseModel ' + base_id + "first_name")
+            self.assertTrue(val.getvalue().strip() == "** value missing **")
+
 
     def test_update_ok(self):
         """ update test working """
@@ -238,12 +242,18 @@ class TestConsoleClass(unittest.TestCase):
 
     def test_update_okextra(self):
         """ update test working """
+        cmd = HBNBCommand()
+
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("create BaseModel")
-            uid = val.getvalue()
+            cmd.onecmd("create BaseModel")
+            uid = val.getvalue().strip()
+
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("update BaseModel " + uid + " name betty ho")
-            HBNBCommand().onecmd("show BaseModel " + uid)
+            cmd.onecmd("update BaseModel " + uid + " name betty ho")
+            self.assertEqual(val.getvalue().strip(), "")
+
+        with patch('sys.stdout', new=StringIO()) as val:
+            cmd.onecmd("show BaseModel " + uid)
             self.assertTrue("betty" in val.getvalue())
 
     def test_user_console(self):
