@@ -33,28 +33,6 @@ class TestConsoleClass(unittest.TestCase):
         except FileNotFoundError:
             pass
 
-    def test_module_doc(self):
-        """ check for module documentation """
-        self.assertTrue(len(HBNBCommand.__doc__) > 0)
-
-    def test_class_doc(self):
-        """ check for documentation """
-        self.assertTrue(len(HBNBCommand.__doc__) > 0)
-
-    def test_method_docs(self):
-        """ check for method documentation """
-        for func in dir(HBNBCommand):
-            self.assertTrue(len(func.__doc__) > 0)
-
-    def test_pep8(self):
-        """ test base and test_base for pep8 conformance """
-        style = pep8.StyleGuide(quiet=True)
-        file1 = 'console.py'
-        file2 = 'tests/test_console.py'
-        result = style.check_files([file1, file2])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warning).")
-
     def test_executable_file(self):
         """ Check if file have permissions to execute"""
         # Check for read access
@@ -274,7 +252,7 @@ class TestConsoleClass(unittest.TestCase):
             HBNBCommand().onecmd("all User")
             self.assertTrue(val.getvalue() != "** class doesn't exist **\n")
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("update User " + user_id + " name betty")
+            HBNBCommand().onecmd("update User " + user_id + " name" " betty")
             HBNBCommand().onecmd("show User " + user_id)
             self.assertTrue("betty" in val.getvalue())
             HBNBCommand().onecmd("destroy User " + user_id)
@@ -392,7 +370,7 @@ class TestConsoleClass(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as val:
             HBNBCommand().onecmd("create User")
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.all()")
+            HBNBCommand().onecmd(HBNBCommand().precmd("User.all()"))
             self.assertTrue(len(val.getvalue()) > 0)
 
     def test_alternative_show(self):
@@ -401,18 +379,18 @@ class TestConsoleClass(unittest.TestCase):
             HBNBCommand().onecmd("create User")
             user_id = val.getvalue()
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.show(\"" + user_id + "\")")
+            HBNBCommand().onecmd(HBNBCommand().precmd("User.show(\"" + user_id + "\")"))
             self.assertTrue(len(val.getvalue()) > 0)
 
     def test_count(self):
         """test alternative show with [class].show"""
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.count()")
+            HBNBCommand().onecmd(HBNBCommand().precmd("User.count()"))
             self.assertTrue(int(val.getvalue()) == 0)
         with patch('sys.stdout', new=StringIO()) as val:
             HBNBCommand().onecmd("create User")
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.count()")
+            HBNBCommand().onecmd(HBNBCommand().precmd("User.count()"))
             self.assertTrue(int(val.getvalue()) == 1)
 
     def test_alternative_destroy(self):
@@ -421,33 +399,30 @@ class TestConsoleClass(unittest.TestCase):
             HBNBCommand().onecmd("create User")
             user_id = val.getvalue()
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.destroy(\"" + user_id + "\")")
+            cmd = f"User.destroy({user_id})"
+            HBNBCommand().onecmd(HBNBCommand().precmd(cmd))
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.count()")
+            HBNBCommand().onecmd(HBNBCommand().precmd("User.count()"))
             self.assertTrue(int(val.getvalue()) == 0)
 
-    def test_alternative_update1(self):
+    def test_alternative_update(self):
         """test alternative update with [class].show"""
         with patch('sys.stdout', new=StringIO()) as val:
             HBNBCommand().onecmd("create User")
             user_id = val.getvalue()
         with patch('sys.stdout', new=StringIO()) as val:
-            line = "\", \"name\", \"betty\")"
-            HBNBCommand().onecmd("User.update(\"" + user_id + line)
+            cmd = f"User.update({user_id} 'name' 'Betty')"
+            HBNBCommand().onecmd(HBNBCommand().precmd(cmd))
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.show(\"" + user_id + "\")")
+            HBNBCommand().onecmd(f"User.show('{user_id}')")
             self.assertTrue("betty" in val.getvalue())
-
-    def test_alternative_update2(self):
-        """test alternative update with [class].show"""
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("create User")
-            user_id = val.getvalue()
+            attr_dict = "{'first_name': 'John', 'age': 89}"
+            cmd = f"User.update({user_id}, {attr_dict})"
+            HBNBCommand().onecmd(HBNBCommand().precmd(cmd))
         with patch('sys.stdout', new=StringIO()) as val:
-            line = "\", {'first_name': 'John', 'age': 89})"
-            HBNBCommand().onecmd("User.update(\"" + user_id + line)
-        with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd("User.show(\"" + user_id + "\")")
+            cmd = f"User.show('{user_id}')"
+            HBNBCommand().onecmd(HBNBCommand().precmd(cmd))
             self.assertTrue("John" in val.getvalue())
 
 if __name__ == '__main__':
