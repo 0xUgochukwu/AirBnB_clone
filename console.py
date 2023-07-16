@@ -23,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
     def __class_validity(self, args):
 
         args = re.split(r" (?![^{}[\]()]*[}\]])", args)
-        if len(args) == 0:
+        if args[0] is '':
             print("** class name missing **")
             return None
 
