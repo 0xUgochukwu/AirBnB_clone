@@ -135,7 +135,6 @@ class HBNBCommand(cmd.Cmd):
         objects = storage.all()
         key = args[0] + '.' + args[1]
 
-
         if key not in list(objects):
             print("** no instance found **")
             return
