@@ -157,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
                 attr_type = type(obj[attr])
                 value = attr_type(args[3])
             obj[attr] = value
-            storage.save()
+            objects[key].save()
 
     def precmd(self, args):
         if "." in args:
