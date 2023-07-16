@@ -16,13 +16,16 @@ class FileStorage:
     __objects = {}
 
     def all(self):
+        """ returns all objects"""
         return self.__objects
 
     def new(self, obj):
+        """created new object"""
         key = obj.__class__.__name__ + '.' + obj.id
         self.__objects[key] = obj
 
     def save(self):
+        """saves new object"""
         dict_objects = {}
         for key in self.__objects:
             dict_objects[key] = self.__objects[key].to_dict()
@@ -30,6 +33,7 @@ class FileStorage:
             json.dump(dict_objects, json_file)
 
     def reload(self):
+        """reloads object from database"""
         try:
             with open(self.__file_path, "r") as json_file:
                 data = json.load(json_file)
