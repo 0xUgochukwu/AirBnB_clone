@@ -487,7 +487,7 @@ class TestConsoleClass(unittest.TestCase):
             HBNBCommand().onecmd(HBNBCommand().precmd("User.count()"))
             self.assertTrue(int(val.getvalue()) == 0)
 
-        def test_alternative_update(self):
+    def test_alternative_update(self):
         """test alternative update with [class].show"""
         cmd = HBNBCommand()
 
