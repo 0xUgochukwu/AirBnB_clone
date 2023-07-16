@@ -379,7 +379,8 @@ class TestConsoleClass(unittest.TestCase):
             HBNBCommand().onecmd("create User")
             user_id = val.getvalue()
         with patch('sys.stdout', new=StringIO()) as val:
-            HBNBCommand().onecmd(HBNBCommand().precmd("User.show(\"" + user_id + "\")"))
+            cmd = f"User.show(\"{user_id}\")"
+            HBNBCommand().onecmd(HBNBCommand().precmd(cmd))
             self.assertTrue(len(val.getvalue()) > 0)
 
     def test_count(self):
