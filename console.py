@@ -123,7 +123,7 @@ class HBNBCommand(cmd.Cmd):
         print(objects_arr)
 
     def do_update(self, args):
-        'Updates an instance based on the class name and id'
+        """Updates an instance based on the class name and id"""
         args = self.__class_validity(args)
         if args is None:
             return

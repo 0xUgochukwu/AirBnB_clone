@@ -9,6 +9,7 @@ import models
 class BaseModel:
     """A BaseModel class"""
     def __init__(self, *args, **kwargs):
+        """ init function """
         if kwargs:
             del kwargs['__class__']
             for key, value in kwargs.items():
@@ -23,13 +24,16 @@ class BaseModel:
             models.storage.save()
 
     def __str__(self):
+        """String representation function """
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
+        """ saves new object """
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
+        """ to dict function """
         data = self.__dict__.copy()
         data['__class__'] = self.__class__.__name__
         data['created_at'] = self.created_at.isoformat()
