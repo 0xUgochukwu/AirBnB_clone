@@ -225,11 +225,10 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("create BaseModel")
-            user_id = val.getvalue().strip()  # Strip any leading/trailing whitespace
+            user_id = val.getvalue().strip()
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd(f"update BaseModel {user_id} name betty")
-            # Check if the output of the update command is empty or not relevant
             self.assertEqual(val.getvalue().strip(), "")
 
         with patch('sys.stdout', new=StringIO()) as val:
@@ -262,11 +261,13 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("show User " + user_id)
-            self.assertTrue(val.getvalue().strip() != "** no instance found **")
+            err_msg = "** no instance found **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("all User")
-            self.assertTrue(val.getvalue().strip() != "** class doesn't exist **")
+            err_msg = "** class doesn't exist **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("update User " + user_id + " name" " betty")
@@ -283,7 +284,6 @@ class TestConsoleClass(unittest.TestCase):
             cmd.onecmd("show User " + user_id)
             self.assertEqual(val.getvalue().strip(), "** no instance found **")
 
-
     def test_place_console(self):
         """ Test the class user with console """
         cmd = HBNBCommand()
@@ -294,15 +294,16 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("show Place " + user_id)
-            self.assertTrue(val.getvalue().strip() != "** no instance found **")
+            err_msg = "** no instance found **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("all Place")
-            self.assertTrue(val.getvalue().strip() != "** class doesn't exist **")
+            err_msg = "** class doesn't exist **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("update Place " + user_id + " name betty")
-            # Check if the output of the update command is empty or not relevant
             self.assertEqual(val.getvalue().strip(), "")
 
         with patch('sys.stdout', new=StringIO()) as val:
@@ -326,11 +327,13 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("show State " + state_id)
-            self.assertTrue(val.getvalue().strip() != "** no instance found **")
+            err_msg = "** no instance found **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("all State")
-            self.assertTrue(val.getvalue().strip() != "** class doesn't exist **")
+            err_msg = "** class doesn't exist **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("update State " + state_id + " name betty")
@@ -345,9 +348,8 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("show State " + state_id)
-            self.assertEqual(val.getvalue().strip(), "** no instance found **")
-
-
+            err_msg = "** no instance found **"
+            self.assertEqual(val.getvalue().strip(), err_msg)
 
     def test_city_console(self):
         """ Test the class user with console """
@@ -359,15 +361,16 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("show City " + user_id)
-            self.assertTrue(val.getvalue().strip() != "** no instance found **")
+            err_msg = "** no instance found **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("all City")
-            self.assertTrue(val.getvalue().strip() != "** class doesn't exist **")
+            err_msg = "** class doesn't exist **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("update City " + user_id + " name betty")
-            # Check if the output of the update command is empty or not relevant
             self.assertEqual(val.getvalue().strip(), "")
 
         with patch('sys.stdout', new=StringIO()) as val:
@@ -381,7 +384,6 @@ class TestConsoleClass(unittest.TestCase):
             cmd.onecmd("show City " + user_id)
             self.assertEqual(val.getvalue().strip(), "** no instance found **")
 
-
     def test_amenity_console(self):
         """ Test the class user with console """
         cmd = HBNBCommand()
@@ -392,15 +394,16 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("show Amenity " + user_id)
-            self.assertTrue(val.getvalue().strip() != "** no instance found **")
+            err_msg = "** no instance found **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("all Amenity")
-            self.assertTrue(val.getvalue().strip() != "** class doesn't exist **")
+            err_msg = "** class doesn't exist **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("update Amenity " + user_id + " name betty")
-            # Check if the output of the update command is empty or not relevant
             self.assertEqual(val.getvalue().strip(), "")
 
         with patch('sys.stdout', new=StringIO()) as val:
@@ -414,7 +417,6 @@ class TestConsoleClass(unittest.TestCase):
             cmd.onecmd("show Amenity " + user_id)
             self.assertEqual(val.getvalue().strip(), "** no instance found **")
 
-
     def test_review_console(self):
         """ Test the class user with console """
         cmd = HBNBCommand()
@@ -425,11 +427,13 @@ class TestConsoleClass(unittest.TestCase):
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("show Review " + user_id)
-            self.assertTrue(val.getvalue().strip() != "** no instance found **")
+            err_msg = "** no instance found **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("all Review")
-            self.assertTrue(val.getvalue().strip() != "** class doesn't exist **")
+            err_msg = "** class doesn't exist **"
+            self.assertTrue(val.getvalue().strip() != err_msg)
 
         with patch('sys.stdout', new=StringIO()) as val:
             cmd.onecmd("update Review " + user_id + " name betty")
