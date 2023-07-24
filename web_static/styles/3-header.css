@@ -1,0 +1,16 @@
+header {
+  height: 70px;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+
+header > div {
+  width: 7rem;
+  height: 3rem;
+  margin-left: 20px;
+  background: url(../images/logo.png) no-repeat;
+  background-size: contain;
+}

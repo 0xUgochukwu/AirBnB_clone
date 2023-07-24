@@ -1,0 +1,36 @@
+.filters {
+  height: 70px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+}
+
+.locations,
+.amenities {
+  height: 100%;
+  width: 25%;
+}
+
+.locations {
+  border-right: 1px solid #ddd;
+}
+
+.filters > button {
+  border: none;
+  font-size: 18px;
+  background-color: #ff5a5f;
+  color: #fff;
+  height: 48px;
+  width: 20%;
+  border-radius: 4px;
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.filters > button:hover {
+  opacity: 90%;
+}
