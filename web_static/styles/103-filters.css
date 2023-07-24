@@ -7,16 +7,15 @@
   flex-wrap: wrap;
   align-items: center;
   height: fit-content;
-  justify-content: center;
-  padding: 0 1rem;
-  gap: 1rem;
   position: relative;
+  justify-content: center;
 }
 
 .filters > .locations,
 .filters > .amenities {
   height: 100%;
   width: 25%;
+  padding-left: 1.5rem;
   min-width: fit-content;
   position: relative;
 }
@@ -38,6 +37,7 @@
 .popover,
 .popover > li > ul {
   list-style-type: none;
+  z-index: 2;
   margin: 0;
   padding: 0;
 }
@@ -94,8 +94,6 @@
 @media screen and (min-width: 461px) {
   .filters {
     justify-content: initial;
-    position: relative;
-    gap: 1.5rem;
   }
 
   .filters > button {
@@ -105,10 +103,14 @@
 }
 
 @media screen and (max-width: 460px) {
+  .filters {
+    padding-bottom: 1rem;
+  }
+
   .filters .amenities,
   .filters .locations {
+    padding: 1rem;
     width: 100%;
-    padding: 0;
   }
 
   .locations {
